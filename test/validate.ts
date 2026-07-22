@@ -117,6 +117,31 @@ for (const [selector, expected] of Object.entries(lightSemanticExpectations)) {
   assert.equal(foreground?.toUpperCase(), expected, `Codefolk Light semantic ${selector} drifted from escook`);
 }
 
+const escookWorkbenchExpectations: Record<string, string> = {
+  "activityBar.activeBackground": "#4D366F",
+  "activityBar.activeBorder": "#FFFFFF00",
+  "activityBar.activeFocusBorder": "#FFFFFF00",
+  "sideBarSectionHeader.background": "#F0F0F0",
+  "sideBarSectionHeader.foreground": "#616161",
+  "tab.activeBorder": "#FF9940",
+  "tab.activeBorderTop": "#00000000",
+  "tab.inactiveBackground": "#F0F0F0",
+  "tab.inactiveForeground": "#777777",
+  "gitDecoration.addedResourceForeground": "#587C0C",
+  "gitDecoration.modifiedResourceForeground": "#895503",
+  "gitDecoration.deletedResourceForeground": "#AD0707",
+  "gitDecoration.renamedResourceForeground": "#007100",
+  "gitDecoration.untrackedResourceForeground": "#007100",
+  "gitDecoration.ignoredResourceForeground": "#8E8E90",
+  "gitDecoration.conflictingResourceForeground": "#AD0707",
+  "gitDecoration.stageModifiedResourceForeground": "#895503",
+  "gitDecoration.stageDeletedResourceForeground": "#AD0707"
+};
+
+for (const [key, expected] of Object.entries(escookWorkbenchExpectations)) {
+  assert.equal(lightTheme.colors[key]?.toUpperCase(), expected, `Codefolk Light workbench color drifted from escook: ${key}`);
+}
+
 const contrastPairs = [
   ["editor.foreground", "editor.background"],
   ["foreground", "editor.background"],

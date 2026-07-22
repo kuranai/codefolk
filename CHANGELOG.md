@@ -15,3 +15,4 @@ All notable changes to Codefolk are documented here.
 ### Changed
 
 - Restored escook Light's characteristic editor palette for strings, keywords, constants, functions, parameters, types, and comments while retaining modern Codefolk workbench coverage.
+- Restored escook Light's stronger active Activity Bar item, quieter SCM section headers and inactive tabs, and classic VS Code Light Git status colors.
