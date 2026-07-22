@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: marketplace
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Verify tag matches package version
+        run: test "$GITHUB_REF_NAME" = "v$(node -p \"require('./package.json').version\")"
+      - run: npm run package
+      - name: Publish to Visual Studio Marketplace
+        run: npx vsce publish --packagePath dist/codefolk-${GITHUB_REF_NAME#v}.vsix -p "$VSCE_PAT"
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      - name: Create GitHub release
+        run: gh release create "$GITHUB_REF_NAME" dist/*.vsix --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}

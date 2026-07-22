@@ -1,0 +1,156 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import type { ColorTheme, SemanticStyle } from "../src/types.js";
+
+const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+
+async function json<T>(path: string): Promise<T> {
+  return JSON.parse(await readFile(resolve(root, path), "utf8")) as T;
+}
+
+const manifest = await json<Record<string, any>>("package.json");
+const registry = await json<{ vscodeVersion: string; colors: string[] }>(
+  "test/fixtures/workbench-colors-1.129.1.json"
+);
+const themes = await Promise.all([
+  json<ColorTheme>("themes/codefolk-light-color-theme.json"),
+  json<ColorTheme>("themes/codefolk-dark-color-theme.json")
+]);
+
+assert.equal(manifest.name, "codefolk");
+assert.equal(manifest.publisher, "kuranai");
+assert.equal(manifest.version, "0.1.0");
+assert.equal(manifest.preview, true);
+assert.equal(manifest.engines.vscode, "^1.100.0");
+assert.deepEqual(
+  manifest.contributes.themes.map((theme: Record<string, string>) => [theme.label, theme.uiTheme, theme.path]),
+  [
+    ["Codefolk Light", "vs", "./themes/codefolk-light-color-theme.json"],
+    ["Codefolk Dark", "vs-dark", "./themes/codefolk-dark-color-theme.json"]
+  ]
+);
+
+const allowedColors = new Set(registry.colors);
+const hexColor = /^#[0-9a-f]{3,4}(?:[0-9a-f]{3,4})?$/i;
+const semanticSelector = /^(?:\*|[A-Za-z_][\w-]*)(?:\.[A-Za-z_][\w-]*)*(?::[A-Za-z_][\w-]*)?$/;
+const allowedFontStyles = new Set(["", "italic", "bold", "underline", "strikethrough"]);
+const deprecatedKeys = new Set([
+  "editorIndentGuide.background",
+  "editorIndentGuide.activeBackground",
+  "editorBracketHighlight.foreground"
+]);
+
+for (const theme of themes) {
+  assert.equal(theme.$schema, "vscode://schemas/color-theme");
+  assert.equal(theme.semanticHighlighting, true);
+  assert.ok(Object.keys(theme.colors).length >= 500, `${theme.name} lacks modern workbench coverage`);
+
+  for (const [key, color] of Object.entries(theme.colors)) {
+    assert.ok(allowedColors.has(key), `${theme.name}: unknown VS Code ${registry.vscodeVersion} color: ${key}`);
+    assert.ok(!deprecatedKeys.has(key), `${theme.name}: deprecated color key: ${key}`);
+    assert.match(color, hexColor, `${theme.name}: invalid color ${color} for ${key}`);
+  }
+
+  for (const rule of theme.tokenColors) {
+    const scopes = Array.isArray(rule.scope) ? rule.scope : [rule.scope];
+    assert.ok(scopes.length > 0 && scopes.every(Boolean), `${theme.name}: empty TextMate scope`);
+    if (rule.settings.foreground) assert.match(rule.settings.foreground, hexColor);
+    if (rule.settings.background) assert.match(rule.settings.background, hexColor);
+    if (rule.settings.fontStyle !== undefined) {
+      for (const style of rule.settings.fontStyle.split(/\s+/).filter(Boolean)) {
+        assert.ok(allowedFontStyles.has(style), `${theme.name}: invalid fontStyle ${style}`);
+      }
+    }
+  }
+
+  for (const [selector, style] of Object.entries(theme.semanticTokenColors)) {
+    assert.match(selector, semanticSelector, `${theme.name}: invalid semantic selector ${selector}`);
+    const foreground = typeof style === "string" ? style : style.foreground;
+    if (foreground) assert.match(foreground, hexColor);
+    validateSemanticStyle(theme.name, selector, style);
+  }
+
+  for (const required of ["class", "function", "parameter", "property", "variable.readonly", "*.deprecated"]) {
+    assert.ok(required in theme.semanticTokenColors, `${theme.name}: missing semantic rule ${required}`);
+  }
+}
+
+assert.deepEqual(Object.keys(themes[0]!.colors), Object.keys(themes[1]!.colors), "Light/dark color keys drifted");
+
+const contrastPairs = [
+  ["editor.foreground", "editor.background"],
+  ["foreground", "editor.background"],
+  ["input.foreground", "input.background"],
+  ["sideBar.foreground", "sideBar.background"],
+  ["statusBar.foreground", "statusBar.background"],
+  ["button.foreground", "button.background"],
+  ["badge.foreground", "badge.background"]
+] as const;
+
+for (const theme of themes) {
+  for (const [foregroundKey, backgroundKey] of contrastPairs) {
+    const foreground = theme.colors[foregroundKey];
+    const background = theme.colors[backgroundKey];
+    assert.ok(foreground && background);
+    const ratio = contrast(foreground, background);
+    assert.ok(
+      ratio >= 4.5,
+      `${theme.name}: ${foregroundKey} on ${backgroundKey} is ${ratio.toFixed(2)}:1; expected >= 4.5:1`
+    );
+  }
+}
+
+console.log(
+  `Validated ${themes.length} themes, ${Object.keys(themes[0]!.colors).length} workbench colors each, ` +
+    `${registry.colors.length} pinned VS Code ${registry.vscodeVersion} color IDs, semantic tokens, and WCAG AA core pairs.`
+);
+
+function validateSemanticStyle(themeName: string, selector: string, style: SemanticStyle): void {
+  if (typeof style === "string" || style.fontStyle === undefined) return;
+  for (const item of style.fontStyle.split(/\s+/).filter(Boolean)) {
+    assert.ok(allowedFontStyles.has(item), `${themeName}: invalid semantic fontStyle ${item} in ${selector}`);
+  }
+}
+
+function contrast(foreground: string, background: string): number {
+  const bg = rgba(background);
+  const fg = composite(rgba(foreground), bg);
+  const lighter = Math.max(luminance(fg), luminance(bg));
+  const darker = Math.min(luminance(fg), luminance(bg));
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function rgba(color: string): [number, number, number, number] {
+  const value = color.slice(1);
+  const expanded = value.length <= 4 ? [...value].map((character) => character.repeat(2)).join("") : value;
+  const alpha = expanded.length === 8 ? Number.parseInt(expanded.slice(6, 8), 16) / 255 : 1;
+  return [
+    Number.parseInt(expanded.slice(0, 2), 16),
+    Number.parseInt(expanded.slice(2, 4), 16),
+    Number.parseInt(expanded.slice(4, 6), 16),
+    alpha
+  ];
+}
+
+function composite(
+  foreground: [number, number, number, number],
+  background: [number, number, number, number]
+): [number, number, number, number] {
+  const alpha = foreground[3] + background[3] * (1 - foreground[3]);
+  return [
+    (foreground[0] * foreground[3] + background[0] * background[3] * (1 - foreground[3])) / alpha,
+    (foreground[1] * foreground[3] + background[1] * background[3] * (1 - foreground[3])) / alpha,
+    (foreground[2] * foreground[3] + background[2] * background[3] * (1 - foreground[3])) / alpha,
+    alpha
+  ];
+}
+
+function luminance(color: [number, number, number, number]): number {
+  const channels = color.slice(0, 3).map((value) => {
+    const normalized = value / 255;
+    return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0]! + 0.7152 * channels[1]! + 0.0722 * channels[2]!;
+}

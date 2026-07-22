@@ -1,0 +1,8 @@
+<.header class="text-xl">
+  Welcome, <%= @current_user.name %>
+  <:subtitle :if={@current_user.admin?}>Theme maintainer</:subtitle>
+</.header>
+
+<ul id="members" phx-update="stream">
+  <li :for={{id, member} <- @streams.members} id={id}>{member.name}</li>
+</ul>

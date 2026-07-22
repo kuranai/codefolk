@@ -1,0 +1,72 @@
+{
+  "name": "codefolk",
+  "displayName": "Codefolk",
+  "description": "A warm, modern light and dark color theme for Visual Studio Code.",
+  "version": "0.1.0",
+  "type": "module",
+  "preview": true,
+  "publisher": "kuranai",
+  "author": {
+    "name": "kuranai",
+    "url": "https://github.com/kuranai"
+  },
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "color-theme",
+    "dark-theme",
+    "light-theme",
+    "warm"
+  ],
+  "homepage": "https://github.com/kuranai/codefolk#readme",
+  "bugs": {
+    "url": "https://github.com/kuranai/codefolk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kuranai/codefolk.git"
+  },
+  "scripts": {
+    "generate": "tsx src/generate.ts",
+    "check:generated": "tsx src/generate.ts --check",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck && npm run check:generated && tsx test/validate.ts",
+    "package": "npm run test && mkdir -p dist && vsce package --no-dependencies --out dist/codefolk-0.1.0.vsix && tsx test/validate-package.ts",
+    "vscode:prepublish": "npm run test"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Codefolk Light",
+        "uiTheme": "vs",
+        "path": "./themes/codefolk-light-color-theme.json"
+      },
+      {
+        "label": "Codefolk Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/codefolk-dark-color-theme.json"
+      }
+    ]
+  },
+  "files": [
+    "assets/*.png",
+    "themes/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@vscode/vsce": "3.9.2",
+    "tsx": "4.23.1",
+    "typescript": "7.0.2"
+  }
+}
