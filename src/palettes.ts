@@ -35,7 +35,24 @@ export const dark: Palette = {
   type: "#FFCB6B",
   fn: "#82AAFF",
   tag: "#F07178",
-  punctuation: "#B9B9BD"
+  punctuation: "#B9B9BD",
+  syntax: {
+    comment: "#A3ACB9",
+    variable: "#E7E7E7",
+    property: "#FEDD6E",
+    string: "#C3E88D",
+    number: "#F78C6C",
+    constant: "#F78C6C",
+    builtInConstant: "#F78C6C",
+    keyword: "#C792EA",
+    storage: "#C792EA",
+    type: "#FFCB6B",
+    fn: "#82AAFF",
+    tag: "#F07178",
+    punctuation: "#B9B9BD",
+    parameter: "#E7E7E7",
+    languageVariable: "#F78C6C"
+  }
 };
 
 export const light: Palette = {
@@ -73,5 +90,22 @@ export const light: Palette = {
   type: "#7A5200",
   fn: "#1459B8",
   tag: "#B3273A",
-  punctuation: "#625A6D"
+  punctuation: "#625A6D",
+  syntax: {
+    comment: "#999999",
+    variable: "#3B3347",
+    property: "#AE81FF",
+    string: "#1794FA",
+    number: "#0025F5",
+    constant: "#AE81FF",
+    builtInConstant: "#DE5CFF",
+    keyword: "#FF3333",
+    storage: "#EB5086",
+    type: "#124CFA",
+    fn: "#1DA11D",
+    tag: "#F92672",
+    punctuation: "#3B3347",
+    parameter: "#FD8B19",
+    languageVariable: "#FF960D"
+  }
 };

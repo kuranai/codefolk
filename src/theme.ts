@@ -570,6 +570,81 @@ function workbench(p: Palette): Record<string, string> {
 }
 
 function syntax(p: Palette): TextMateRule[] {
+  if (p.kind === "dark") return darkSyntax(p);
+  const s = p.syntax;
+  return [
+    { name: "Comments", scope: ["comment", "punctuation.definition.comment"], settings: { foreground: s.comment, fontStyle: "" } },
+    { name: "Strings", scope: ["string", "string.quoted", "string.template", "punctuation.definition.string"], settings: { foreground: "#1794FAF0" } },
+    { name: "Numbers", scope: "constant.numeric", settings: { foreground: s.number } },
+    { name: "Built-in constants", scope: "constant.language", settings: { foreground: s.builtInConstant } },
+    { name: "User constants", scope: ["constant.character", "constant.other"], settings: { foreground: s.constant } },
+    { name: "Keywords", scope: "keyword", settings: { foreground: s.keyword, fontStyle: "bold" } },
+    { name: "Storage", scope: ["storage", "storage.modifier"], settings: { foreground: s.storage } },
+    { name: "Storage types", scope: "storage.type", settings: { foreground: "#0088FF" } },
+    { name: "Operators", scope: ["keyword.operator", "punctuation.separator", "punctuation.accessor"], settings: { foreground: s.punctuation } },
+    { name: "Functions", scope: "entity.name.function", settings: { foreground: s.fn } },
+    { name: "Library functions", scope: "support.function", settings: { foreground: "#FFCD03" } },
+    { name: "Types", scope: ["entity.name.type", "entity.name.class", "entity.name.interface", "support.type", "support.class"], settings: { foreground: s.type } },
+    { name: "Variables", scope: ["variable", "variable.other.readwrite"], settings: { foreground: s.variable } },
+    { name: "Parameters", scope: "variable.parameter", settings: { foreground: s.parameter } },
+    { name: "Properties", scope: ["variable.other.property", "support.type.property-name", "meta.object-literal.key", "entity.other.attribute-name"], settings: { foreground: s.property } },
+    { name: "Language variables", scope: ["variable.language", "variable.language.this", "variable.language.super"], settings: { foreground: s.languageVariable } },
+    { name: "Tags", scope: ["entity.name.tag", "punctuation.definition.tag"], settings: { foreground: s.tag } },
+    { name: "Attributes", scope: ["entity.other.attribute-name", "support.type.property-name.css"], settings: { foreground: s.property } },
+    { name: "CSS values", scope: ["support.constant.property-value", "constant.other.color", "support.constant.font-name"], settings: { foreground: s.string } },
+    { name: "JSON keys", scope: ["support.type.property-name.json", "string.json support.type.property-name.json"], settings: { foreground: s.property } },
+    { name: "Markdown headings", scope: ["markup.heading", "entity.name.section.markdown"], settings: { foreground: s.keyword, fontStyle: "bold" } },
+    { name: "Markdown bold", scope: "markup.bold", settings: { foreground: p.fg, fontStyle: "bold" } },
+    { name: "Markdown italic", scope: "markup.italic", settings: { foreground: p.fg, fontStyle: "italic" } },
+    { name: "Markdown links", scope: ["markup.underline.link", "string.other.link", "meta.link.inline.markdown"], settings: { foreground: p.blue } },
+    { name: "Markdown code", scope: ["markup.inline.raw", "markup.fenced_code.block"], settings: { foreground: s.string } },
+    { name: "Diff inserted", scope: "markup.inserted", settings: { foreground: p.green } },
+    { name: "Diff deleted", scope: "markup.deleted", settings: { foreground: p.red } },
+    { name: "Diff changed", scope: "markup.changed", settings: { foreground: p.yellow } },
+    { name: "Elixir atoms", scope: ["constant.other.symbol.elixir", "constant.other.symbol.ruby"], settings: { foreground: s.constant } },
+    { name: "Elixir module aliases", scope: ["entity.name.type.module.elixir", "support.class.elixir"], settings: { foreground: s.type } },
+    { name: "HEEx components", scope: ["entity.name.tag.heex", "support.class.component.heex", "entity.name.tag.html"], settings: { foreground: s.tag } },
+    { name: "Invalid", scope: ["invalid", "invalid.illegal"], settings: { foreground: p.red } }
+  ];
+}
+
+function semantics(p: Palette): Record<string, SemanticStyle> {
+  if (p.kind === "dark") return darkSemantics(p);
+  const s = p.syntax;
+  return {
+    "class": s.type,
+    "class.declaration": { foreground: s.type, bold: true },
+    "comment": { foreground: s.comment, italic: false },
+    "decorator": p.pink,
+    "enum": s.type,
+    "enumMember": s.constant,
+    "event": p.pink,
+    "function": s.fn,
+    "function.declaration": { foreground: s.fn, bold: true },
+    "interface": s.type,
+    "keyword": s.keyword,
+    "label": p.pink,
+    "macro": p.purple,
+    "method": s.fn,
+    "method.declaration": { foreground: s.fn, bold: true },
+    "namespace": s.type,
+    "number": s.number,
+    "operator": s.punctuation,
+    "parameter": s.parameter,
+    "property": s.property,
+    "regexp": p.orange,
+    "string": s.string,
+    "struct": s.type,
+    "type": s.type,
+    "typeParameter": s.type,
+    "variable": s.variable,
+    "variable.readonly": s.constant,
+    "*.defaultLibrary": s.type,
+    "*.deprecated": { foreground: p.fgSubtle, fontStyle: "strikethrough" }
+  };
+}
+
+function darkSyntax(p: Palette): TextMateRule[] {
   return [
     { name: "Comments", scope: ["comment", "punctuation.definition.comment"], settings: { foreground: p.comment, fontStyle: "italic" } },
     { name: "Strings", scope: ["string", "string.quoted", "string.template", "punctuation.definition.string"], settings: { foreground: p.string } },
@@ -600,7 +675,7 @@ function syntax(p: Palette): TextMateRule[] {
   ];
 }
 
-function semantics(p: Palette): Record<string, SemanticStyle> {
+function darkSemantics(p: Palette): Record<string, SemanticStyle> {
   return {
     "class": p.type,
     "class.declaration": { foreground: p.type, bold: true },

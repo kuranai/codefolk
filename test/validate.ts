@@ -79,6 +79,44 @@ for (const theme of themes) {
 
 assert.deepEqual(Object.keys(themes[0]!.colors), Object.keys(themes[1]!.colors), "Light/dark color keys drifted");
 
+const lightTheme = themes.find((theme) => theme.type === "light")!;
+const lightTextMateExpectations: Record<string, string> = {
+  Comments: "#999999",
+  Strings: "#1794FAF0",
+  Numbers: "#0025F5",
+  "Built-in constants": "#DE5CFF",
+  "User constants": "#AE81FF",
+  Keywords: "#FF3333",
+  Functions: "#1DA11D",
+  Types: "#124CFA",
+  Parameters: "#FD8B19"
+};
+
+for (const [name, expected] of Object.entries(lightTextMateExpectations)) {
+  const rule = lightTheme.tokenColors.find((candidate) => candidate.name === name);
+  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk Light drifted from escook ${name}`);
+}
+
+const lightFunctionRule = lightTheme.tokenColors.find((candidate) => candidate.name === "Functions")!;
+assert.deepEqual(lightFunctionRule.scope, "entity.name.function", "Codefolk Light must not over-color ordinary function calls");
+const lightLibraryFunctionRule = lightTheme.tokenColors.find((candidate) => candidate.name === "Library functions")!;
+assert.equal(lightLibraryFunctionRule.settings.foreground, "#FFCD03");
+
+const lightSemanticExpectations: Record<string, string> = {
+  keyword: "#FF3333",
+  string: "#1794FA",
+  number: "#0025F5",
+  function: "#1DA11D",
+  parameter: "#FD8B19",
+  type: "#124CFA"
+};
+
+for (const [selector, expected] of Object.entries(lightSemanticExpectations)) {
+  const style = lightTheme.semanticTokenColors[selector];
+  const foreground = typeof style === "string" ? style : style?.foreground;
+  assert.equal(foreground?.toUpperCase(), expected, `Codefolk Light semantic ${selector} drifted from escook`);
+}
+
 const contrastPairs = [
   ["editor.foreground", "editor.background"],
   ["foreground", "editor.background"],

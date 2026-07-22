@@ -66,4 +66,21 @@ export interface Palette {
   fn: string;
   tag: string;
   punctuation: string;
+  syntax: {
+    comment: string;
+    variable: string;
+    property: string;
+    string: string;
+    number: string;
+    constant: string;
+    builtInConstant: string;
+    keyword: string;
+    storage: string;
+    type: string;
+    fn: string;
+    tag: string;
+    punctuation: string;
+    parameter: string;
+    languageVariable: string;
+  };
 }
