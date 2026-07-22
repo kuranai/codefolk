@@ -21,7 +21,7 @@ const themes = await Promise.all([
 
 assert.equal(manifest.name, "codefolk");
 assert.equal(manifest.publisher, "kuranai");
-assert.equal(manifest.version, "0.1.0");
+assert.equal(manifest.version, "0.1.1");
 assert.equal(manifest.preview, true);
 assert.equal(manifest.engines.vscode, "^1.100.0");
 assert.deepEqual(
@@ -80,6 +80,7 @@ for (const theme of themes) {
 assert.deepEqual(Object.keys(themes[0]!.colors), Object.keys(themes[1]!.colors), "Light/dark color keys drifted");
 
 const lightTheme = themes.find((theme) => theme.type === "light")!;
+const darkTheme = themes.find((theme) => theme.type === "dark")!;
 const lightTextMateExpectations: Record<string, string> = {
   Comments: "#999999",
   Strings: "#1794FAF0",
@@ -140,6 +141,86 @@ const escookWorkbenchExpectations: Record<string, string> = {
 
 for (const [key, expected] of Object.entries(escookWorkbenchExpectations)) {
   assert.equal(lightTheme.colors[key]?.toUpperCase(), expected, `Codefolk Light workbench color drifted from escook: ${key}`);
+}
+
+const darkTextMateExpectations: Record<string, string> = {
+  Comments: "#4CAE4C",
+  "Line comments": "#5C7E8C",
+  Strings: "#C3E88D",
+  "Numbers and constants": "#F77669",
+  Keywords: "#C792EA",
+  Storage: "#C792EA",
+  Operators: "#39ADB5",
+  Punctuation: "#D9F5DD",
+  Functions: "#89DDFF",
+  "Types and classes": "#FFCB6B",
+  "Type annotations": "#1290BF",
+  Variables: "#FF5370",
+  Parameters: "#FD8B19",
+  Properties: "#FEDD6E",
+  Tags: "#FF5370",
+  Attributes: "#FFCB6B"
+};
+
+for (const [name, expected] of Object.entries(darkTextMateExpectations)) {
+  const rule = darkTheme.tokenColors.find((candidate) => candidate.name === name);
+  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk Dark drifted from escook ${name}`);
+}
+
+const darkCommentRule = darkTheme.tokenColors.find((candidate) => candidate.name === "Comments")!;
+assert.equal(darkCommentRule.settings.fontStyle, "", "Codefolk Dark comments should retain escook's upright style");
+
+const darkSemanticExpectations: Record<string, string> = {
+  class: "#FFCB6B",
+  comment: "#4CAE4C",
+  function: "#89DDFF",
+  interface: "#1290BF",
+  keyword: "#C792EA",
+  number: "#F77669",
+  operator: "#39ADB5",
+  parameter: "#FD8B19",
+  property: "#FEDD6E",
+  string: "#C3E88D",
+  type: "#1290BF",
+  variable: "#FF5370"
+};
+
+for (const [selector, expected] of Object.entries(darkSemanticExpectations)) {
+  const style = darkTheme.semanticTokenColors[selector];
+  const foreground = typeof style === "string" ? style : style?.foreground;
+  assert.equal(foreground?.toUpperCase(), expected, `Codefolk Dark semantic ${selector} drifted from escook`);
+}
+
+const darkWorkbenchExpectations: Record<string, string> = {
+  "activityBar.activeBackground": "#8A4B08",
+  "activityBar.activeBorder": "#00000000",
+  "activityBar.foreground": "#CDD3DE",
+  "activityBar.inactiveForeground": "#49494B",
+  "activityBarBadge.background": "#77777B",
+  "editor.background": "#252526",
+  "editor.foreground": "#CDD3DE",
+  "editor.selectionBackground": "#80CBC420",
+  "input.border": "#77777B",
+  "list.hoverBackground": "#EF820C33",
+  "panel.border": "#202020",
+  "panelTitle.activeBorder": "#CCCCCC",
+  "statusBar.foreground": "#CCCCCC",
+  "tab.activeBackground": "#29292C",
+  "tab.activeBorder": "#EF820C",
+  "tab.activeBorderTop": "#00000000",
+  "tab.inactiveBackground": "#252526",
+  "tab.inactiveForeground": "#888888",
+  "textLink.foreground": "#FFCC00",
+  "gitDecoration.addedResourceForeground": "#C3E88D",
+  "gitDecoration.modifiedResourceForeground": "#FFCF1B",
+  "gitDecoration.deletedResourceForeground": "#EC5F67",
+  "gitDecoration.ignoredResourceForeground": "#546E7A",
+  "gitDecoration.stageModifiedResourceForeground": "#FFCF1B",
+  "gitDecoration.stageDeletedResourceForeground": "#EC5F67"
+};
+
+for (const [key, expected] of Object.entries(darkWorkbenchExpectations)) {
+  assert.equal(darkTheme.colors[key]?.toUpperCase(), expected, `Codefolk Dark workbench color drifted from escook: ${key}`);
 }
 
 const contrastPairs = [

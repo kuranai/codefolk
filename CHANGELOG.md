@@ -2,7 +2,16 @@
 
 All notable changes to Codefolk are documented here.
 
-## [0.1.0] - Unreleased
+## [Unreleased]
+
+## [0.1.1] - 2026-07-22
+
+### Changed
+
+- Restored escook Dark's characteristic editor palette, subdued workbench chrome, differentiated tabs, and classic Git status colors while retaining modern Codefolk workbench coverage.
+- Improved the Dark Activity Bar's active and hover states for faster orientation and reliable icon contrast.
+
+## [0.1.0] - 2026-07-22
 
 ### Added
 
