@@ -21,7 +21,7 @@ const themes = await Promise.all([
 
 assert.equal(manifest.name, "codefolk");
 assert.equal(manifest.publisher, "kuranai");
-assert.equal(manifest.version, "0.1.1");
+assert.equal(manifest.version, "0.1.2");
 assert.equal(manifest.preview, true);
 assert.equal(manifest.engines.vscode, "^1.100.0");
 assert.deepEqual(
@@ -81,6 +81,15 @@ assert.deepEqual(Object.keys(themes[0]!.colors), Object.keys(themes[1]!.colors),
 
 const lightTheme = themes.find((theme) => theme.type === "light")!;
 const darkTheme = themes.find((theme) => theme.type === "dark")!;
+
+for (const theme of themes) {
+  assert.equal(
+    theme.colors["focusBorder"],
+    "#00000000",
+    `${theme.name}: global focus outlines should remain invisible`
+  );
+}
+
 const lightTextMateExpectations: Record<string, string> = {
   Comments: "#999999",
   Strings: "#1794FAF0",

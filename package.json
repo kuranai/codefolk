@@ -2,7 +2,7 @@
   "name": "codefolk",
   "displayName": "Codefolk",
   "description": "A warm, modern light and dark color theme for Visual Studio Code.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "preview": true,
   "publisher": "kuranai",
@@ -38,7 +38,7 @@
     "check:generated": "tsx src/generate.ts --check",
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && npm run check:generated && tsx test/validate.ts",
-    "package": "npm run test && mkdir -p dist && vsce package --no-dependencies --out dist/codefolk-0.1.1.vsix && tsx test/validate-package.ts",
+    "package": "npm run test && mkdir -p dist && vsce package --no-dependencies --out dist/codefolk-0.1.2.vsix && tsx test/validate-package.ts",
     "vscode:prepublish": "npm run test"
   },
   "contributes": {

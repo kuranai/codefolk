@@ -208,7 +208,7 @@ function workbench(p: Palette): Record<string, string> {
     "extensionButton.prominentBackground": p.accent,
     "extensionButton.prominentForeground": p.accentContrast,
     "extensionButton.prominentHoverBackground": p.accentHover,
-    "focusBorder": dark ? p.accentHover : p.accent,
+    "focusBorder": transparent,
     "foreground": p.fg,
     "gitDecoration.addedResourceForeground": dark ? "#C3E88D" : "#587C0C",
     "gitDecoration.conflictingResourceForeground": dark ? "#F77669" : "#AD0707",

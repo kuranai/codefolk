@@ -199,7 +199,7 @@
     "extensionButton.prominentBackground": "#EF820C",
     "extensionButton.prominentForeground": "#1E1E1F",
     "extensionButton.prominentHoverBackground": "#FF9940",
-    "focusBorder": "#FF9940",
+    "focusBorder": "#00000000",
     "foreground": "#CDD3DE",
     "gitDecoration.addedResourceForeground": "#C3E88D",
     "gitDecoration.conflictingResourceForeground": "#F77669",

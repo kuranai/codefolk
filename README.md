@@ -20,7 +20,7 @@ After the first Marketplace release, install `kuranai.codefolk` from the Extensi
 ```sh
 npm ci
 npm run package
-code --install-extension dist/codefolk-0.1.0.vsix
+code --install-extension dist/codefolk-0.1.2.vsix
 ```
 
 Then open **Preferences: Color Theme** and choose **Codefolk Dark** or **Codefolk Light**.

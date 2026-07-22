@@ -4,6 +4,12 @@ All notable changes to Codefolk are documented here.
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-22
+
+### Changed
+
+- Removed the global dashed focus outline from interactive workbench controls in both themes.
+
 ## [0.1.1] - 2026-07-22
 
 ### Changed

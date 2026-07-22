@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const archive = resolve(root, "dist/codefolk-0.1.1.vsix");
+const archive = resolve(root, "dist/codefolk-0.1.2.vsix");
 const files = execFileSync("unzip", ["-Z1", archive], { encoding: "utf8" })
   .trim()
   .split("\n")
