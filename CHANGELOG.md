@@ -4,6 +4,12 @@ All notable changes to Codefolk are documented here.
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-07-22
+
+### Changed
+
+- Removed dashed hover outlines from toolbar actions and navigation tabs in both themes.
+
 ## [0.1.2] - 2026-07-22
 
 ### Changed

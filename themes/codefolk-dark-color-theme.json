@@ -543,7 +543,7 @@
     "titleBar.inactiveForeground": "#888888",
     "toolbar.activeBackground": "#2E2E2E",
     "toolbar.hoverBackground": "#2E2E2E",
-    "toolbar.hoverOutline": "#EF820C",
+    "toolbar.hoverOutline": "#00000000",
     "tree.inactiveIndentGuidesStroke": "#3B3B3F80",
     "tree.indentGuidesStroke": "#202020",
     "walkThrough.embeddedEditorBackground": "#252526",

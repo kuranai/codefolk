@@ -552,7 +552,7 @@ function workbench(p: Palette): Record<string, string> {
     "titleBar.inactiveForeground": dark ? p.fgSubtle : "#E2DAEA",
     "toolbar.activeBackground": p.bgSubtle,
     "toolbar.hoverBackground": p.bgSubtle,
-    "toolbar.hoverOutline": p.accent,
+    "toolbar.hoverOutline": transparent,
     "tree.indentGuidesStroke": p.border,
     "tree.inactiveIndentGuidesStroke": dark ? "#3B3B3F80" : "#D8CFBB80",
     "walkThrough.embeddedEditorBackground": p.bg,

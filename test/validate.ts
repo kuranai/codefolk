@@ -21,7 +21,7 @@ const themes = await Promise.all([
 
 assert.equal(manifest.name, "codefolk");
 assert.equal(manifest.publisher, "kuranai");
-assert.equal(manifest.version, "0.1.2");
+assert.equal(manifest.version, "0.1.3");
 assert.equal(manifest.preview, true);
 assert.equal(manifest.engines.vscode, "^1.100.0");
 assert.deepEqual(
@@ -87,6 +87,11 @@ for (const theme of themes) {
     theme.colors["focusBorder"],
     "#00000000",
     `${theme.name}: global focus outlines should remain invisible`
+  );
+  assert.equal(
+    theme.colors["toolbar.hoverOutline"],
+    "#00000000",
+    `${theme.name}: toolbar hover outlines should remain invisible`
   );
 }
 
