@@ -19,7 +19,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Verify tag matches package version
-        run: test "$GITHUB_REF_NAME" = "v$(node -p \"require('./package.json').version\")"
+        run: |
+          package_version=$(node -p "require('./package.json').version")
+          test "$GITHUB_REF_NAME" = "v$package_version"
       - run: npm run package
       - name: Publish to Visual Studio Marketplace
         run: npx vsce publish --packagePath dist/codefolk-${GITHUB_REF_NAME#v}.vsix -p "$VSCE_PAT"
