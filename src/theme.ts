@@ -583,7 +583,7 @@ function syntax(p: Palette): TextMateRule[] {
     { name: "Storage types", scope: "storage.type", settings: { foreground: "#0088FF" } },
     { name: "Operators", scope: ["keyword.operator", "punctuation.separator", "punctuation.accessor"], settings: { foreground: s.punctuation } },
     { name: "Functions", scope: "entity.name.function", settings: { foreground: s.fn } },
-    { name: "Library functions", scope: "support.function", settings: { foreground: "#FFCD03" } },
+    { name: "Library functions", scope: "support.function", settings: { foreground: p.cyan } },
     { name: "Types", scope: ["entity.name.type", "entity.name.class", "entity.name.interface", "support.type", "support.class"], settings: { foreground: s.type } },
     { name: "Variables", scope: ["variable", "variable.other.readwrite"], settings: { foreground: s.variable } },
     { name: "Parameters", scope: "variable.parameter", settings: { foreground: s.parameter } },
