@@ -115,7 +115,7 @@ for (const [name, expected] of Object.entries(lightTextMateExpectations)) {
 const lightFunctionRule = lightTheme.tokenColors.find((candidate) => candidate.name === "Functions")!;
 assert.deepEqual(lightFunctionRule.scope, "entity.name.function", "Codefolk Light must not over-color ordinary function calls");
 const lightLibraryFunctionRule = lightTheme.tokenColors.find((candidate) => candidate.name === "Library functions")!;
-assert.equal(lightLibraryFunctionRule.settings.foreground, "#FFCD03");
+assert.equal(lightLibraryFunctionRule.settings.foreground, "#006D77");
 
 const lightSemanticExpectations: Record<string, string> = {
   keyword: "#FF3333",
