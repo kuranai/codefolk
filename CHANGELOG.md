@@ -4,6 +4,12 @@ All notable changes to Codefolk are documented here.
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-09-26
+
+### Changed
+
+- Removed dark theme, better readabillity
+
 ## [0.1.3] - 2026-07-22
 
 ### Changed

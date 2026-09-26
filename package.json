@@ -2,7 +2,7 @@
   "name": "codefolk",
   "displayName": "Codefolk",
   "description": "A warm, modern color theme for Visual Studio Code.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "preview": true,
   "publisher": "kuranai",
