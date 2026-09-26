@@ -1,6 +1,6 @@
 # Codefolk
 
-Codefolk is a warm, modern color theme for Visual Studio Code, using orange, teal, and violet accents without sacrificing everyday readability.
+Codefolk is a warm, modern color theme for Visual Studio Code.
 
 ![Codefolk](assets/codefolk.png)
 
