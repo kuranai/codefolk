@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const archive = resolve(root, "dist/codefolk-0.1.3.vsix");
+const manifest = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8")) as { version: string };
+const archive = resolve(root, `dist/codefolk-${manifest.version}.vsix`);
 const files = execFileSync("unzip", ["-Z1", archive], { encoding: "utf8" })
   .trim()
   .split("\n")

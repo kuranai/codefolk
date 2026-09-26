@@ -38,7 +38,8 @@
     "check:generated": "tsx src/generate.ts --check",
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && npm run check:generated && tsx test/validate.ts",
-    "package": "npm run test && mkdir -p dist && vsce package --no-dependencies --out dist/codefolk-0.1.3.vsix && tsx test/validate-package.ts",
+    "package": "npm run test && node scripts/package.mjs && tsx test/validate-package.ts",
+    "release": "node scripts/release.mjs",
     "vscode:prepublish": "npm run test"
   },
   "contributes": {

@@ -21,7 +21,8 @@ const themes = await Promise.all([
 
 assert.equal(manifest.name, "codefolk");
 assert.equal(manifest.publisher, "kuranai");
-assert.equal(manifest.version, "0.1.3");
+assert.equal(typeof manifest.version, "string");
+assert.match(manifest.version, /^\d+\.\d+\.\d+$/, "manifest.version must be stable semver");
 assert.equal(manifest.preview, true);
 assert.equal(manifest.engines.vscode, "^1.100.0");
 assert.deepEqual(

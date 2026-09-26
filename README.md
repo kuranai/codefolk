@@ -41,9 +41,19 @@ Press `F5` in VS Code to open an Extension Development Host with the fixtures in
 
 ## Release
 
-1. Update `version` and `CHANGELOG.md`, regenerate themes, and run `npm test`.
-2. Create a matching tag such as `v0.1.0`.
-3. Approve the protected `marketplace` GitHub environment.
+Run the release preparation and validation with:
+
+```sh
+npm run release -- 0.1.4
+```
+
+To create the release commit, tag it, and push both to `main` and the remote, use:
+
+```sh
+npm run release -- 0.1.4 --push
+```
+
+The script updates `version`, `package-lock.json`, `CHANGELOG.md`, and generated themes, then runs the tests and VSIX packaging. Approve the protected `marketplace` GitHub environment when the tag-triggered workflow pauses.
 
 The release workflow builds the VSIX and publishes it using the `VSCE_PAT` environment secret. The `kuranai` Visual Studio Marketplace publisher must be created once before the first release.
 
