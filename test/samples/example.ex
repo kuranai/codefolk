@@ -9,4 +9,5 @@ defmodule Codefolk.Theme do
   end
 
   defp fetch_palette, do: {:ok, %{accent: "#705697"}}
+  defp fetch_palette, do: {:ok, %{accent: "#70c697"}}
 end

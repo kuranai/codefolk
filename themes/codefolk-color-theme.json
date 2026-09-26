@@ -566,7 +566,7 @@
         "punctuation.definition.comment"
       ],
       "settings": {
-        "foreground": "#999999",
+        "foreground": "#7F7870",
         "fontStyle": ""
       }
     },
@@ -579,21 +579,21 @@
         "punctuation.definition.string"
       ],
       "settings": {
-        "foreground": "#1794FAF0"
+        "foreground": "#0B7A55"
       }
     },
     {
       "name": "Numbers",
       "scope": "constant.numeric",
       "settings": {
-        "foreground": "#0025F5"
+        "foreground": "#A0309A"
       }
     },
     {
       "name": "Built-in constants",
       "scope": "constant.language",
       "settings": {
-        "foreground": "#DE5CFF"
+        "foreground": "#A0309A"
       }
     },
     {
@@ -603,14 +603,14 @@
         "constant.other"
       ],
       "settings": {
-        "foreground": "#AE81FF"
+        "foreground": "#A0309A"
       }
     },
     {
       "name": "Keywords",
       "scope": "keyword",
       "settings": {
-        "foreground": "#FF3333",
+        "foreground": "#D0242B",
         "fontStyle": "bold"
       }
     },
@@ -621,14 +621,14 @@
         "storage.modifier"
       ],
       "settings": {
-        "foreground": "#EB5086"
+        "foreground": "#C01F5E"
       }
     },
     {
       "name": "Storage types",
       "scope": "storage.type",
       "settings": {
-        "foreground": "#0088FF"
+        "foreground": "#C01F5E"
       }
     },
     {
@@ -646,7 +646,7 @@
       "name": "Functions",
       "scope": "entity.name.function",
       "settings": {
-        "foreground": "#1DA11D"
+        "foreground": "#1A5FCC"
       }
     },
     {
@@ -666,7 +666,7 @@
         "support.class"
       ],
       "settings": {
-        "foreground": "#124CFA"
+        "foreground": "#5C3BC7"
       }
     },
     {
@@ -683,7 +683,8 @@
       "name": "Parameters",
       "scope": "variable.parameter",
       "settings": {
-        "foreground": "#FD8B19"
+        "foreground": "#B84A00",
+        "fontStyle": "italic"
       }
     },
     {
@@ -695,7 +696,7 @@
         "entity.other.attribute-name"
       ],
       "settings": {
-        "foreground": "#AE81FF"
+        "foreground": "#40608F"
       }
     },
     {
@@ -706,7 +707,8 @@
         "variable.language.super"
       ],
       "settings": {
-        "foreground": "#FF960D"
+        "foreground": "#C01F5E",
+        "fontStyle": "italic"
       }
     },
     {
@@ -716,7 +718,7 @@
         "punctuation.definition.tag"
       ],
       "settings": {
-        "foreground": "#F92672"
+        "foreground": "#C4213F"
       }
     },
     {
@@ -726,7 +728,7 @@
         "support.type.property-name.css"
       ],
       "settings": {
-        "foreground": "#AE81FF"
+        "foreground": "#40608F"
       }
     },
     {
@@ -737,7 +739,7 @@
         "support.constant.font-name"
       ],
       "settings": {
-        "foreground": "#1794FA"
+        "foreground": "#0B7A55"
       }
     },
     {
@@ -747,7 +749,7 @@
         "string.json support.type.property-name.json"
       ],
       "settings": {
-        "foreground": "#AE81FF"
+        "foreground": "#40608F"
       }
     },
     {
@@ -757,7 +759,7 @@
         "entity.name.section.markdown"
       ],
       "settings": {
-        "foreground": "#FF3333",
+        "foreground": "#D0242B",
         "fontStyle": "bold"
       }
     },
@@ -795,7 +797,7 @@
         "markup.fenced_code.block"
       ],
       "settings": {
-        "foreground": "#1794FA"
+        "foreground": "#0B7A55"
       }
     },
     {
@@ -826,7 +828,14 @@
         "constant.other.symbol.ruby"
       ],
       "settings": {
-        "foreground": "#AE81FF"
+        "foreground": "#A0309A"
+      }
+    },
+    {
+      "name": "Elixir keyword keys",
+      "scope": "constant.other.keywords.elixir",
+      "settings": {
+        "foreground": "#40608F"
       }
     },
     {
@@ -836,7 +845,7 @@
         "support.class.elixir"
       ],
       "settings": {
-        "foreground": "#124CFA"
+        "foreground": "#5C3BC7"
       }
     },
     {
@@ -847,7 +856,7 @@
         "entity.name.tag.html"
       ],
       "settings": {
-        "foreground": "#F92672"
+        "foreground": "#C4213F"
       }
     },
     {
@@ -862,46 +871,56 @@
     }
   ],
   "semanticTokenColors": {
-    "class": "#124CFA",
+    "class": "#5C3BC7",
     "class.declaration": {
-      "foreground": "#124CFA",
+      "foreground": "#5C3BC7",
       "bold": true
     },
     "comment": {
-      "foreground": "#999999",
+      "foreground": "#7F7870",
       "italic": false
     },
     "decorator": "#A02F6F",
-    "enum": "#124CFA",
-    "enumMember": "#AE81FF",
+    "enum": "#5C3BC7",
+    "enumMember": "#A0309A",
     "event": "#A02F6F",
-    "function": "#1DA11D",
+    "function": "#1A5FCC",
     "function.declaration": {
-      "foreground": "#1DA11D",
+      "foreground": "#1A5FCC",
       "bold": true
     },
-    "interface": "#124CFA",
-    "keyword": "#FF3333",
+    "interface": "#5C3BC7",
+    "keyword": {
+      "foreground": "#D0242B",
+      "bold": true
+    },
     "label": "#A02F6F",
-    "macro": "#70409B",
-    "method": "#1DA11D",
+    "macro": "#D0242B",
+    "method": "#1A5FCC",
     "method.declaration": {
-      "foreground": "#1DA11D",
+      "foreground": "#1A5FCC",
       "bold": true
     },
-    "namespace": "#124CFA",
-    "number": "#0025F5",
+    "namespace": "#5C3BC7",
+    "number": "#A0309A",
     "operator": "#3B3347",
-    "parameter": "#FD8B19",
-    "property": "#AE81FF",
+    "parameter": {
+      "foreground": "#B84A00",
+      "italic": true
+    },
+    "property": "#40608F",
     "regexp": "#B45309",
-    "string": "#1794FA",
-    "struct": "#124CFA",
-    "type": "#124CFA",
-    "typeParameter": "#124CFA",
+    "string": "#0B7A55",
+    "struct": "#5C3BC7",
+    "type": "#5C3BC7",
+    "typeParameter": "#5C3BC7",
     "variable": "#3B3347",
-    "variable.readonly": "#AE81FF",
-    "*.defaultLibrary": "#124CFA",
+    "variable.readonly": "#A0309A",
+    "function.defaultLibrary": "#006D77",
+    "method.defaultLibrary": "#006D77",
+    "class.defaultLibrary": "#5C3BC7",
+    "type.defaultLibrary": "#5C3BC7",
+    "namespace.defaultLibrary": "#5C3BC7",
     "*.deprecated": {
       "foreground": "#77707F",
       "fontStyle": "strikethrough"

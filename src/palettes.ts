@@ -36,20 +36,20 @@ export const codefolk: Palette = {
   tag: "#B3273A",
   punctuation: "#625A6D",
   syntax: {
-    comment: "#999999",
+    comment: "#7F7870",
     variable: "#3B3347",
-    property: "#AE81FF",
-    string: "#1794FA",
-    number: "#0025F5",
-    constant: "#AE81FF",
-    builtInConstant: "#DE5CFF",
-    keyword: "#FF3333",
-    storage: "#EB5086",
-    type: "#124CFA",
-    fn: "#1DA11D",
-    tag: "#F92672",
+    property: "#40608F",
+    string: "#0B7A55",
+    number: "#A0309A",
+    constant: "#A0309A",
+    builtInConstant: "#A0309A",
+    keyword: "#D0242B",
+    storage: "#C01F5E",
+    type: "#5C3BC7",
+    fn: "#1A5FCC",
+    tag: "#C4213F",
     punctuation: "#3B3347",
-    parameter: "#FD8B19",
-    languageVariable: "#FF960D"
+    parameter: "#B84A00",
+    languageVariable: "#C01F5E"
   }
 };

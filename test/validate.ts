@@ -90,20 +90,22 @@ for (const theme of themes) {
 }
 
 const textMateExpectations: Record<string, string> = {
-  Comments: "#999999",
-  Strings: "#1794FAF0",
-  Numbers: "#0025F5",
-  "Built-in constants": "#DE5CFF",
-  "User constants": "#AE81FF",
-  Keywords: "#FF3333",
-  Functions: "#1DA11D",
-  Types: "#124CFA",
-  Parameters: "#FD8B19"
+  Comments: "#7F7870",
+  Strings: "#0B7A55",
+  Numbers: "#A0309A",
+  "Built-in constants": "#A0309A",
+  "User constants": "#A0309A",
+  Keywords: "#D0242B",
+  "Storage types": "#C01F5E",
+  Functions: "#1A5FCC",
+  Types: "#5C3BC7",
+  Parameters: "#B84A00",
+  Properties: "#40608F"
 };
 
 for (const [name, expected] of Object.entries(textMateExpectations)) {
   const rule = codefolkTheme.tokenColors.find((candidate) => candidate.name === name);
-  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk drifted from escook ${name}`);
+  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk TextMate ${name} drifted`);
 }
 
 const functionRule = codefolkTheme.tokenColors.find((candidate) => candidate.name === "Functions")!;
@@ -112,18 +114,39 @@ const libraryFunctionRule = codefolkTheme.tokenColors.find((candidate) => candid
 assert.equal(libraryFunctionRule.settings.foreground, "#006D77");
 
 const semanticExpectations: Record<string, string> = {
-  keyword: "#FF3333",
-  string: "#1794FA",
-  number: "#0025F5",
-  function: "#1DA11D",
-  parameter: "#FD8B19",
-  type: "#124CFA"
+  keyword: "#D0242B",
+  macro: "#D0242B",
+  string: "#0B7A55",
+  number: "#A0309A",
+  function: "#1A5FCC",
+  "function.defaultLibrary": "#006D77",
+  "method.defaultLibrary": "#006D77",
+  parameter: "#B84A00",
+  property: "#40608F",
+  type: "#5C3BC7"
 };
 
 for (const [selector, expected] of Object.entries(semanticExpectations)) {
   const style = codefolkTheme.semanticTokenColors[selector];
   const foreground = typeof style === "string" ? style : style?.foreground;
-  assert.equal(foreground?.toUpperCase(), expected, `Codefolk semantic ${selector} drifted from escook`);
+  assert.equal(foreground?.toUpperCase(), expected, `Codefolk semantic ${selector} drifted`);
+}
+
+assert.ok(
+  !("*.defaultLibrary" in codefolkTheme.semanticTokenColors),
+  "Codefolk must not recolor every defaultLibrary token; keywords and macros would lose their keyword color"
+);
+
+const editorBackground = codefolkTheme.colors["editor.background"]!;
+for (const rule of codefolkTheme.tokenColors) {
+  const foreground = rule.settings.foreground;
+  if (!foreground) continue;
+  const minimum = rule.name === "Comments" ? 3.8 : 4.5;
+  const ratio = contrast(foreground, editorBackground);
+  assert.ok(
+    ratio >= minimum,
+    `Codefolk TextMate ${rule.name} ${foreground} is ${ratio.toFixed(2)}:1 on the editor; expected >= ${minimum}:1`
+  );
 }
 
 const escookWorkbenchExpectations: Record<string, string> = {
