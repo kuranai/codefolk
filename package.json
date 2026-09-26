@@ -1,7 +1,7 @@
 {
   "name": "codefolk",
   "displayName": "Codefolk",
-  "description": "A warm, modern light and dark color theme for Visual Studio Code.",
+  "description": "A warm, modern color theme for Visual Studio Code.",
   "version": "0.1.3",
   "type": "module",
   "preview": true,
@@ -21,8 +21,6 @@
   "keywords": [
     "theme",
     "color-theme",
-    "dark-theme",
-    "light-theme",
     "warm"
   ],
   "homepage": "https://github.com/kuranai/codefolk#readme",
@@ -45,14 +43,9 @@
   "contributes": {
     "themes": [
       {
-        "label": "Codefolk Light",
+        "label": "Codefolk",
         "uiTheme": "vs",
-        "path": "./themes/codefolk-light-color-theme.json"
-      },
-      {
-        "label": "Codefolk Dark",
-        "uiTheme": "vs-dark",
-        "path": "./themes/codefolk-dark-color-theme.json"
+        "path": "./themes/codefolk-color-theme.json"
       }
     ]
   },

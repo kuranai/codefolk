@@ -1,6 +1,6 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "Codefolk Light",
+  "name": "Codefolk",
   "type": "light",
   "semanticHighlighting": true,
   "colors": {

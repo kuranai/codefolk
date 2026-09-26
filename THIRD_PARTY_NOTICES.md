@@ -1,6 +1,6 @@
 # Third-party notices
 
-Codefolk is derived from the Dark and Light color themes in
+Codefolk is derived from the color theme in
 [liulongbin1314/escook-theme](https://github.com/liulongbin1314/escook-theme),
 last used from upstream commit `cbbc72e632b2337f923bc17be984f650319ee283`.
 

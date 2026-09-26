@@ -19,12 +19,10 @@ const expected = [
   "extension/LICENSE.txt",
   "extension/README.md",
   "extension/THIRD_PARTY_NOTICES.md",
-  "extension/assets/codefolk-dark.png",
-  "extension/assets/codefolk-light.png",
+  "extension/assets/codefolk.png",
   "extension/assets/icon.png",
   "extension/package.json",
-  "extension/themes/codefolk-dark-color-theme.json",
-  "extension/themes/codefolk-light-color-theme.json"
+  "extension/themes/codefolk-color-theme.json"
 ].sort();
 
 assert.deepEqual(

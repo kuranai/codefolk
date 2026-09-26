@@ -14,10 +14,7 @@ const manifest = await json<Record<string, any>>("package.json");
 const registry = await json<{ vscodeVersion: string; colors: string[] }>(
   "test/fixtures/workbench-colors-1.129.1.json"
 );
-const themes = await Promise.all([
-  json<ColorTheme>("themes/codefolk-light-color-theme.json"),
-  json<ColorTheme>("themes/codefolk-dark-color-theme.json")
-]);
+const themes = await Promise.all([json<ColorTheme>("themes/codefolk-color-theme.json")]);
 
 assert.equal(manifest.name, "codefolk");
 assert.equal(manifest.publisher, "kuranai");
@@ -27,10 +24,7 @@ assert.equal(manifest.preview, true);
 assert.equal(manifest.engines.vscode, "^1.100.0");
 assert.deepEqual(
   manifest.contributes.themes.map((theme: Record<string, string>) => [theme.label, theme.uiTheme, theme.path]),
-  [
-    ["Codefolk Light", "vs", "./themes/codefolk-light-color-theme.json"],
-    ["Codefolk Dark", "vs-dark", "./themes/codefolk-dark-color-theme.json"]
-  ]
+  [["Codefolk", "vs", "./themes/codefolk-color-theme.json"]]
 );
 
 const allowedColors = new Set(registry.colors);
@@ -78,10 +72,9 @@ for (const theme of themes) {
   }
 }
 
-assert.deepEqual(Object.keys(themes[0]!.colors), Object.keys(themes[1]!.colors), "Light/dark color keys drifted");
-
-const lightTheme = themes.find((theme) => theme.type === "light")!;
-const darkTheme = themes.find((theme) => theme.type === "dark")!;
+const codefolkTheme = themes[0]!;
+assert.equal(codefolkTheme.name, "Codefolk");
+assert.equal(codefolkTheme.type, "light");
 
 for (const theme of themes) {
   assert.equal(
@@ -96,7 +89,7 @@ for (const theme of themes) {
   );
 }
 
-const lightTextMateExpectations: Record<string, string> = {
+const textMateExpectations: Record<string, string> = {
   Comments: "#999999",
   Strings: "#1794FAF0",
   Numbers: "#0025F5",
@@ -108,17 +101,17 @@ const lightTextMateExpectations: Record<string, string> = {
   Parameters: "#FD8B19"
 };
 
-for (const [name, expected] of Object.entries(lightTextMateExpectations)) {
-  const rule = lightTheme.tokenColors.find((candidate) => candidate.name === name);
-  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk Light drifted from escook ${name}`);
+for (const [name, expected] of Object.entries(textMateExpectations)) {
+  const rule = codefolkTheme.tokenColors.find((candidate) => candidate.name === name);
+  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk drifted from escook ${name}`);
 }
 
-const lightFunctionRule = lightTheme.tokenColors.find((candidate) => candidate.name === "Functions")!;
-assert.deepEqual(lightFunctionRule.scope, "entity.name.function", "Codefolk Light must not over-color ordinary function calls");
-const lightLibraryFunctionRule = lightTheme.tokenColors.find((candidate) => candidate.name === "Library functions")!;
-assert.equal(lightLibraryFunctionRule.settings.foreground, "#006D77");
+const functionRule = codefolkTheme.tokenColors.find((candidate) => candidate.name === "Functions")!;
+assert.deepEqual(functionRule.scope, "entity.name.function", "Codefolk must not over-color ordinary function calls");
+const libraryFunctionRule = codefolkTheme.tokenColors.find((candidate) => candidate.name === "Library functions")!;
+assert.equal(libraryFunctionRule.settings.foreground, "#006D77");
 
-const lightSemanticExpectations: Record<string, string> = {
+const semanticExpectations: Record<string, string> = {
   keyword: "#FF3333",
   string: "#1794FA",
   number: "#0025F5",
@@ -127,10 +120,10 @@ const lightSemanticExpectations: Record<string, string> = {
   type: "#124CFA"
 };
 
-for (const [selector, expected] of Object.entries(lightSemanticExpectations)) {
-  const style = lightTheme.semanticTokenColors[selector];
+for (const [selector, expected] of Object.entries(semanticExpectations)) {
+  const style = codefolkTheme.semanticTokenColors[selector];
   const foreground = typeof style === "string" ? style : style?.foreground;
-  assert.equal(foreground?.toUpperCase(), expected, `Codefolk Light semantic ${selector} drifted from escook`);
+  assert.equal(foreground?.toUpperCase(), expected, `Codefolk semantic ${selector} drifted from escook`);
 }
 
 const escookWorkbenchExpectations: Record<string, string> = {
@@ -155,87 +148,7 @@ const escookWorkbenchExpectations: Record<string, string> = {
 };
 
 for (const [key, expected] of Object.entries(escookWorkbenchExpectations)) {
-  assert.equal(lightTheme.colors[key]?.toUpperCase(), expected, `Codefolk Light workbench color drifted from escook: ${key}`);
-}
-
-const darkTextMateExpectations: Record<string, string> = {
-  Comments: "#4CAE4C",
-  "Line comments": "#5C7E8C",
-  Strings: "#C3E88D",
-  "Numbers and constants": "#F77669",
-  Keywords: "#C792EA",
-  Storage: "#C792EA",
-  Operators: "#39ADB5",
-  Punctuation: "#D9F5DD",
-  Functions: "#89DDFF",
-  "Types and classes": "#FFCB6B",
-  "Type annotations": "#1290BF",
-  Variables: "#FF5370",
-  Parameters: "#FD8B19",
-  Properties: "#FEDD6E",
-  Tags: "#FF5370",
-  Attributes: "#FFCB6B"
-};
-
-for (const [name, expected] of Object.entries(darkTextMateExpectations)) {
-  const rule = darkTheme.tokenColors.find((candidate) => candidate.name === name);
-  assert.equal(rule?.settings.foreground?.toUpperCase(), expected, `Codefolk Dark drifted from escook ${name}`);
-}
-
-const darkCommentRule = darkTheme.tokenColors.find((candidate) => candidate.name === "Comments")!;
-assert.equal(darkCommentRule.settings.fontStyle, "", "Codefolk Dark comments should retain escook's upright style");
-
-const darkSemanticExpectations: Record<string, string> = {
-  class: "#FFCB6B",
-  comment: "#4CAE4C",
-  function: "#89DDFF",
-  interface: "#1290BF",
-  keyword: "#C792EA",
-  number: "#F77669",
-  operator: "#39ADB5",
-  parameter: "#FD8B19",
-  property: "#FEDD6E",
-  string: "#C3E88D",
-  type: "#1290BF",
-  variable: "#FF5370"
-};
-
-for (const [selector, expected] of Object.entries(darkSemanticExpectations)) {
-  const style = darkTheme.semanticTokenColors[selector];
-  const foreground = typeof style === "string" ? style : style?.foreground;
-  assert.equal(foreground?.toUpperCase(), expected, `Codefolk Dark semantic ${selector} drifted from escook`);
-}
-
-const darkWorkbenchExpectations: Record<string, string> = {
-  "activityBar.activeBackground": "#8A4B08",
-  "activityBar.activeBorder": "#00000000",
-  "activityBar.foreground": "#CDD3DE",
-  "activityBar.inactiveForeground": "#49494B",
-  "activityBarBadge.background": "#77777B",
-  "editor.background": "#252526",
-  "editor.foreground": "#CDD3DE",
-  "editor.selectionBackground": "#80CBC420",
-  "input.border": "#77777B",
-  "list.hoverBackground": "#EF820C33",
-  "panel.border": "#202020",
-  "panelTitle.activeBorder": "#CCCCCC",
-  "statusBar.foreground": "#CCCCCC",
-  "tab.activeBackground": "#29292C",
-  "tab.activeBorder": "#EF820C",
-  "tab.activeBorderTop": "#00000000",
-  "tab.inactiveBackground": "#252526",
-  "tab.inactiveForeground": "#888888",
-  "textLink.foreground": "#FFCC00",
-  "gitDecoration.addedResourceForeground": "#C3E88D",
-  "gitDecoration.modifiedResourceForeground": "#FFCF1B",
-  "gitDecoration.deletedResourceForeground": "#EC5F67",
-  "gitDecoration.ignoredResourceForeground": "#546E7A",
-  "gitDecoration.stageModifiedResourceForeground": "#FFCF1B",
-  "gitDecoration.stageDeletedResourceForeground": "#EC5F67"
-};
-
-for (const [key, expected] of Object.entries(darkWorkbenchExpectations)) {
-  assert.equal(darkTheme.colors[key]?.toUpperCase(), expected, `Codefolk Dark workbench color drifted from escook: ${key}`);
+  assert.equal(codefolkTheme.colors[key]?.toUpperCase(), expected, `Codefolk workbench color drifted from escook: ${key}`);
 }
 
 const contrastPairs = [
@@ -277,8 +190,8 @@ function contrast(foreground: string, background: string): number {
   const bg = rgba(background);
   const fg = composite(rgba(foreground), bg);
   const lighter = Math.max(luminance(fg), luminance(bg));
-  const darker = Math.min(luminance(fg), luminance(bg));
-  return (lighter + 0.05) / (darker + 0.05);
+  const lowerLuminance = Math.min(luminance(fg), luminance(bg));
+  return (lighter + 0.05) / (lowerLuminance + 0.05);
 }
 
 function rgba(color: string): [number, number, number, number] {

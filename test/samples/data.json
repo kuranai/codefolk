@@ -1,6 +1,6 @@
 {
   "name": "codefolk",
   "preview": true,
-  "themes": ["light", "dark"],
+  "themes": ["codefolk"],
   "version": 0.1
 }

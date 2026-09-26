@@ -1,5 +1,3 @@
-export type ThemeKind = "dark" | "light";
-
 export interface TextMateRule {
   name?: string;
   scope: string | string[];
@@ -23,7 +21,7 @@ export type SemanticStyle =
 export interface ColorTheme {
   $schema: string;
   name: string;
-  type: ThemeKind;
+  type: "light";
   semanticHighlighting: true;
   colors: Record<string, string>;
   tokenColors: TextMateRule[];
@@ -31,7 +29,6 @@ export interface ColorTheme {
 }
 
 export interface Palette {
-  kind: ThemeKind;
   bg: string;
   bgElevated: string;
   bgMuted: string;

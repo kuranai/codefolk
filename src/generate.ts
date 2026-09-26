@@ -1,13 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
-import { dark, light } from "./palettes.js";
+import { codefolk } from "./palettes.js";
 import { createTheme } from "./theme.js";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const outputs = [
-  ["themes/codefolk-light-color-theme.json", createTheme(light)],
-  ["themes/codefolk-dark-color-theme.json", createTheme(dark)]
+  ["themes/codefolk-color-theme.json", createTheme(codefolk)]
 ] as const;
 const check = process.argv.includes("--check");
 
